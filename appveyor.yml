@@ -1,10 +1,20 @@
-image: Visual Studio 2019
+image: Visual Studio 2022
 
 environment:
-  matrix:
-    - PYTHON: "C:\\Python39-x64"
+  PYTHON: "C:\\Python312-x64"
 
 install:
+  # 如果镜像里没有 Python312，就用 AppVeyor 官方脚本装一个
+  - ps: |
+      if (-not (Test-Path "C:\Python312-x64\python.exe")) {
+        Write-Host "Python 3.12 not found, installing..."
+        # 下载官方 3.12 安装包并静默安装
+        $url = "https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe"
+        $out = "$env:TEMP\python-3.12.7-amd64.exe"
+        Invoke-WebRequest -Uri $url -OutFile $out
+        Start-Process -FilePath $out -ArgumentList "/quiet InstallAllUsers=1 TargetDir=C:\Python312-x64 PrependPath=0 Include_test=0" -Wait
+      }
+  - "%PYTHON%\\python.exe --version"
   - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install cython setuptools wheel pycryptodome"
 
