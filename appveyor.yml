@@ -1,0 +1,18 @@
+image: Visual Studio 2019
+
+environment:
+  matrix:
+    - PYTHON: "C:\\Python39-x64"
+
+install:
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
+  - "%PYTHON%\\python.exe -m pip install cython setuptools wheel pycryptodome"
+
+build_script:
+  - "%PYTHON%\\python.exe setup.py build_ext --inplace"
+
+artifacts:
+  - path: "ip_core*.pyd"
+    name: ip_core_pyd
+
+test: off
