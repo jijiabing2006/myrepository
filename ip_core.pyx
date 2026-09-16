@@ -46,13 +46,13 @@ from Crypto.Signature import pkcs1_15
 # 1) 区分密钥与验签用的 RSA 公钥（随 exe 发布，编译后不落明文）
 # ---------------------------------------------------------------------------
 RSA_PUBLIC_PEM = """-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtP5O/2DebafAUKJeD9tJ
-fvrP+xu2wraXAzWU6Hsgcm6PMkHJEh99Gu/1Kd5Q0haTsS8NtEQq4iJp6y+0Bmud
-+0vyjnUcCpfnYRKNwZ1/2W2Mhxk+K0GZV0J9PLd1W5b3kadt1+qxd1B/lEuw0T3o
-qrmdi4kCEijHgEDC+TR/E0o45TtAlPZTirJ3eMal08lDrOeeToje8qT/SBEcMGKz
-bx338daBA1vGJf2n7rx25qZJPCdSEnhVMQ8FkI5MBBB7eTLe3ES+M2UEEObzCAW8
-fQ4BebAHho9NF+UeV3+byqNTGsIQzwhqaFgFd1QrYY217+625pwsLZbEUBWr6PdD
-uwIDAQAB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz6U1bsTzXadhjXb4ekeA
+Ohnsced+2wYj5AwEQmxMpKnZK2xTh8tCvoJjc7nfdlcI3IdsX6lo29XbE6PIh9MG
+a9W+pXM8nJ/zcg2fPczBji2ILWW0kAMFK5XVdBJMR33dWjc0tv1Wrp7HkvuIs+Tp
+1jfNj2bJzSR/aUi+pA1E+I3lT6jSyeaQsyNpbtDcLqwYX380VvJ0RbM/t7cvU44g
+r1zZAAM2cnTVVo2z3LkGk5/2jfoRmr3wrTtDCyBDgk735uPm0xew3qKAzEHRRnMh
+i7AxFLhm+ie6e5OqriI/SsBIWzyO+ouSMBg4sYc/C/wCkB4KuzPmQetrXcgzYigt
+TwIDAQAB
 -----END PUBLIC KEY-----"""
 
 # AES 密钥（base64 文本）逐字节异或 0x5A 后的字节串 —— 编译后不落明文
@@ -88,7 +88,7 @@ def check_license(path: str = "license.key", pub_pem: str = RSA_PUBLIC_PEM):
         customer = lic["customer"]
         issued_at = lic["issued_at"]
         expires_at = lic["expires_at"]
-        sig_b64 = lic["signature"]
+        sig_b64 = lic["seal"]
     except (KeyError, json.JSONDecodeError) as e:
         return False, f"授权文件格式错误: {e}"
 
